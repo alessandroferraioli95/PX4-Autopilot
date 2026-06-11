@@ -152,6 +152,10 @@ public:
 	void send_custom_mavlink_command(const MavlinkPassthrough::CommandInt &command);
 	void add_mavlink_message_callback(uint16_t message_id, std::function< void(const mavlink_message_t &)> callback);
 
+	mavlink_home_position_t get_home_position(std::chrono::seconds timeout = std::chrono::seconds(10));
+
+	Telemetry::EulerAngle get_attitude_euler();
+
 	void enable_fixedwing_mectrics();
 	void check_airspeed_is_valid();
 	void check_airspeed_is_invalid();
@@ -162,6 +166,11 @@ public:
 	void set_param_int(const std::string &param, int32_t value)
 	{
 		CHECK(_param->set_param_int(param, value) == Param::Result::Success);
+	}
+
+	void set_param_float(const std::string &param, float value)
+	{
+		CHECK(_param->set_param_float(param, value) == Param::Result::Success);
 	}
 
 	template<typename Rep, typename Period>
